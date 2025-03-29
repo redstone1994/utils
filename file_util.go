@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 )
 
-func moveFiles(srcDir, dstDir string) error {
+func MoveFiles(srcDir, dstDir string) error {
 	// 确保目标目录存在
 	if err := os.MkdirAll(dstDir, os.ModePerm); err != nil {
 		return errors.Wrap(err, "创建目标目录失败")
@@ -29,7 +29,7 @@ func moveFiles(srcDir, dstDir string) error {
 		dstPath := filepath.Join(dstDir, entry.Name())
 
 		// 移动文件
-		if err := moveFile(srcPath, dstPath); err != nil {
+		if err := MoveFile(srcPath, dstPath); err != nil {
 			return errors.Wrapf(err, "移动文件 %s 失败\n", srcPath)
 		} else {
 			fmt.Printf("成功移动文件: %s -> %s\n", srcPath, dstPath)
@@ -40,7 +40,7 @@ func moveFiles(srcDir, dstDir string) error {
 }
 
 // moveFile 移动文件（适用于跨设备文件系统）
-func moveFile(src, dst string) error {
+func MoveFile(src, dst string) error {
 	// 先尝试重命名（适用于同一文件系统）
 	if err := os.Rename(src, dst); err == nil {
 		return nil
